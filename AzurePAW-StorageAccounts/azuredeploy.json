@@ -21,11 +21,14 @@
   },
   "variables": {
 
-    "vmdiagsa": "[concat('vmdiag', uniqueString(resourceGroup().id))]",
-    "vmDiagSAName": "[toLower(variables('vmdiagsa'))]",
-    "networksa": "[concat('network', uniqueString(resourceGroup().id))]",
-    "networkSAName": "[toLower(variables('networksa'))]"
-    
+    "vmdiagsa": "[concat('saaddsusscvmdiagsm', uniqueString(resourceGroup().id))]",
+    "vmdiagsa24": "[substring(concat(variables('vmdiagsa')),0,24)]",
+    "vmDiagSAName": "[toLower(variables('vmdiagsa24'))]",
+
+    "networksa": "[concat('saaddsusscnetworksm', uniqueString(resourceGroup().id))]",
+    "networksa24": "[substring(concat(variables('networksa')),0,24)]",
+    "networkSAName": "[toLower(variables('networksa24'))]"
+
   },
   "resources": [
 
