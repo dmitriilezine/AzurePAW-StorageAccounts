@@ -27,7 +27,11 @@
 
     "networksa": "[concat('saaddsusscnetworksm', uniqueString(resourceGroup().id))]",
     "networksa24": "[substring(concat(variables('networksa')),0,24)]",
-    "networkSAName": "[toLower(variables('networksa24'))]"
+    "networkSAName": "[toLower(variables('networksa24'))]",
+
+    "sqlsa": "[concat('saaddsusscsqlsm', uniqueString(resourceGroup().id))]",
+    "sqlsa24": "[substring(concat(variables('sqlsa')),0,24)]",
+    "sqlSAName": "[toLower(variables('sqlsa24'))]"
 
   },
   "resources": [
@@ -50,6 +54,21 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('networkSAName')]",
+      "apiVersion": "2018-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportsHttpsTrafficOnly": true,
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('sqlSAName')]",
       "apiVersion": "2018-07-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [],
