@@ -2,8 +2,35 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "VirtualMachineDiagSANamePrefix": {
+      "type": "string",
+      "defaultValue": "vmdiagsa",
+      "metadata": {
+        "description": "Storage Account name prefix. Only alpha numeric. Do not use any special characters"
+      }
+    },
+    "NetworkDiagSANamePrefix": {
+      "type": "string",
+      "defaultValue": "networkdiagsa",
+      "metadata": {
+        "description": "Storage Account name prefix. Only alpha numeric. Do not use any special characters"
+      }
+    },
 
-   
+    "SQLDiagSANamePrefix": {
+      "type": "string",
+      "defaultValue": "azuresqldiagsa",
+      "metadata": {
+        "description": "Storage Account name prefix. Only alpha numeric. Do not use any special characters"
+      }
+    },
+    "KeyVaultDiagSANamePrefix": {
+      "type": "string",
+      "defaultValue": "keyvaultdiagsa",
+      "metadata": {
+        "description": "Storage Account name prefix. Only alpha numeric. Do not use any special characters"
+      }
+    },
     "storageAccountType": {
       "type": "string",
       "defaultValue": "Standard_RAGRS",
@@ -21,17 +48,21 @@
   },
   "variables": {
 
-    "vmdiagsa": "[concat('saaddsusscvmdiagsm', uniqueString(resourceGroup().id))]",
+    "vmdiagsa": "[concat(parameters('VirtualMachineDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
     "vmdiagsa24": "[substring(concat(variables('vmdiagsa')),0,24)]",
     "vmDiagSAName": "[toLower(variables('vmdiagsa24'))]",
 
-    "networksa": "[concat('saaddsusscnetworksm', uniqueString(resourceGroup().id))]",
+    "networksa": "[concat(parameters('NetworkDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
     "networksa24": "[substring(concat(variables('networksa')),0,24)]",
     "networkSAName": "[toLower(variables('networksa24'))]",
 
-    "sqlsa": "[concat('saaddsusscsqlsm', uniqueString(resourceGroup().id))]",
+    "sqlsa": "[concat(parameters('SQLDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
     "sqlsa24": "[substring(concat(variables('sqlsa')),0,24)]",
-    "sqlSAName": "[toLower(variables('sqlsa24'))]"
+    "sqlSAName": "[toLower(variables('sqlsa24'))]",
+
+    "akvsa": "[concat(parameters('KeyVaultDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
+    "akvsa24": "[substring(concat(variables('akvsa')),0,24)]",
+    "akvSAName": "[toLower(variables('akvsa24'))]"
 
   },
   "resources": [
@@ -80,8 +111,22 @@
         "supportsHttpsTrafficOnly": true,
         "accessTier": "Hot"
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('akvSAName')]",
+      "apiVersion": "2018-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportsHttpsTrafficOnly": true,
+        "accessTier": "Hot"
+      }
     }
-
   ],
   "outputs": {}
 }
