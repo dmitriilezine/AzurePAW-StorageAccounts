@@ -48,19 +48,19 @@
   },
   "variables": {
 
-    "vmdiagsa": "[concat(parameters('VirtualMachineDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
+    "vmdiagsa": "[concat(parameters('VirtualMachineDiagSANamePrefix'), uniqueString(subscription().subscriptionId), uniqueString(resourceGroup().id))]",
     "vmdiagsa24": "[substring(concat(variables('vmdiagsa')),0,24)]",
     "vmDiagSAName": "[toLower(variables('vmdiagsa24'))]",
 
-    "networksa": "[concat(parameters('NetworkDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
+    "networksa": "[concat(parameters('NetworkDiagSANamePrefix'), uniqueString(subscription().subscriptionId), uniqueString(resourceGroup().id))]",
     "networksa24": "[substring(concat(variables('networksa')),0,24)]",
     "networkSAName": "[toLower(variables('networksa24'))]",
 
-    "sqlsa": "[concat(parameters('SQLDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
+    "sqlsa": "[concat(parameters('SQLDiagSANamePrefix'), uniqueString(subscription().subscriptionId), uniqueString(resourceGroup().id))]",
     "sqlsa24": "[substring(concat(variables('sqlsa')),0,24)]",
     "sqlSAName": "[toLower(variables('sqlsa24'))]",
 
-    "akvsa": "[concat(parameters('KeyVaultDiagSANamePrefix'), uniqueString(subscription().subscriptionId))]",
+    "akvsa": "[concat(parameters('KeyVaultDiagSANamePrefix'), uniqueString(subscription().subscriptionId), uniqueString(resourceGroup().id))]",
     "akvsa24": "[substring(concat(variables('akvsa')),0,24)]",
     "akvSAName": "[toLower(variables('akvsa24'))]"
 
